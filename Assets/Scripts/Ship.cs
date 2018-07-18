@@ -11,8 +11,6 @@ public class Ship : MonoBehaviour {
     private bool onceDestroy;//一回だけ破壊処理する
 
     private int FrameNum; //フレーム数
-    private int[] gene = new int[VD.GENE_LENGTH]; //遺伝子(保存時使用)
-    public int[,] Genes = new int[10,VD.GENE_LENGTH]; //計算した遺伝子群
 
     //==========================================================================
     //コンポーネント
@@ -85,64 +83,6 @@ public class Ship : MonoBehaviour {
 
                     break;
 
-                    case (int)VD.SHIP_MODE.LEARN:
-                    if(invaderManager.Generation >= 1) {
-                        switch(Genes[invaderManager.Wave,FrameNum]) {
-                            case 0:
-                            MoveLeft();
-                            break;
-
-                            case 1:
-                            MoveRight();
-                            break;
-
-                            case 2:
-                            ShotBullet();
-                            break;
-
-                            case 3:
-                            break;
-                        }
-
-                        gene[FrameNum] = Genes[invaderManager.Wave,FrameNum];
-                    } else {
-                        int rand = Random.Range(0,4);
-                        switch(rand) {
-                            case 0:
-                            MoveLeft();
-                            break;
-
-                            case 1:
-                            MoveRight();
-                            break;
-
-                            case 2:
-                            ShotBullet();
-                            break;
-
-                            case 3:
-                            break;
-                        }
-
-                        gene[FrameNum] = rand;
-                    }
-
-                    if(!(checkLeft && checkRight)) {
-                        break;
-                    }
-
-                    if(checkRight) {
-                        transform.position = new Vector3(VD.EDGE_POSITION_X,VD.SHIP_POSITION_Y,0);
-                        break;
-                    }
-
-                    if(checkLeft) {
-                        transform.position = new Vector3(VD.EDGE_POSITION_X,VD.SHIP_POSITION_Y,0);
-                        break;
-                    }
-
-                    break;
-
                     case (int)VD.SHIP_MODE.RANDOM:
                     int rand2 = Random.Range(0,4);
                     switch(rand2) {
@@ -161,8 +101,6 @@ public class Ship : MonoBehaviour {
                         case 3:
                         break;
                     }
-
-                    gene[FrameNum] = rand2;
 
                     if(!(checkLeft && checkRight)) {
                         break;
@@ -256,23 +194,6 @@ public class Ship : MonoBehaviour {
 
             yield return new WaitForEndOfFrame();
         }
-
-        yield break;
-    }
-
-    //==========================================================================
-    //遺伝子情報を保存
-    public IEnumerator SaveGene () {
-        string str = "";
-
-        str += scoreManager.Score;
-        str += "," + scoreManager._Time;
-
-        for(int i = 0;i < gene.Length;i++) {
-            str += "," + gene[i];
-        }
-
-        textController.WriteText(str);
 
         yield break;
     }

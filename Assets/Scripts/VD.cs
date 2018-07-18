@@ -11,7 +11,7 @@ public class VD : MonoBehaviour {
     public static readonly float INVADERS_SPACE = 0.6f; //インベーダー間のすきまの広さ
     public static readonly int INVADER_NUM_X = 9; //インベーダの横の数
     public static readonly int INVADER_NUM_Y = 6; //インベーダの横の数
-    public static readonly float INVADER_SPEED = 10000; //インベーダーのスピード
+    public static readonly float INVADER_SPEED = 10; //インベーダーのスピード
     public static readonly float SHIP_BULLET_SPEED = 0.1f; //プレイヤーシップの弾のスピード
     public static readonly float PREPARATION_INTERVAL_LENGTH = 1f; //ウェーブ間の時間の長さ
     public static readonly float DEFENSE_LINE_Y = -3.7f; //防衛ライン
@@ -21,8 +21,4 @@ public class VD : MonoBehaviour {
     public enum SHIP_MODE { PLAY = 0, LEARN = 1, RANDOM = 2 }; //プレイヤーシップのモード
 
     public enum INVADER_SCORE { INV1 = 10, INV2 = 20, INV3 = 30, UFO1 = 50, UFO2 = 100, UFO3 = 150, UFO4 = 300 }; //スコア
-
-    public static int GENE_LENGTH=3000; //遺伝子の長さ
-    public static readonly int CROSS_OVER_POINT_1 = 200; //交叉点
-    public static readonly int CROSS_OVER_POINT_2 = 300; //交叉点
 }
