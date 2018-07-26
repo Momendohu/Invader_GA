@@ -83,6 +83,10 @@ public class Ship : MonoBehaviour {
 
                     break;
 
+                    case (int)VD.SHIP_MODE.LEARN:
+
+                    break;
+
                     case (int)VD.SHIP_MODE.RANDOM:
                     int rand2 = Random.Range(0,4);
                     switch(rand2) {

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(100)]
+
 /// <summary>
 /// インベーダーの管理
 /// </summary>
@@ -19,14 +21,12 @@ public class InvaderManager : MonoBehaviour {
     //==========================================================================
     //コンポーネント
     private ScoreManager scoreManager;
-    //private TextController textController;
     private Ship ship;
 
     //==========================================================================
     //コンポーネント参照
     private void CRef () {
         scoreManager = GameObject.Find("Manager/ScoreManager").GetComponent<ScoreManager>();
-        //textController = GameObject.Find("TextController").GetComponent<TextController>();
         ship = GameObject.Find("Ship").GetComponent<Ship>();
     }
 

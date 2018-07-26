@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
+[DefaultExecutionOrder(-100)]
+
 /// <summary>
 /// BGM、SEを管理
 /// </summary>
