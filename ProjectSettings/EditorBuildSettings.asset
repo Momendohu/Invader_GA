@@ -5,6 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/unity-environment/Assets/ML-Agents/Examples/3DBall/3DBall.unity
-    guid: 6f62a2ccb3830437ea4e85a617e856b3
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  m_configObjects: {}

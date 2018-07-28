@@ -7,12 +7,10 @@ public class Manager : MonoBehaviour {
 
     //==========================================================================
     //コンポーネント
-    private SoundManager soundManager;
 
     //==========================================================================
     //コンポーネント参照
     private void CRef () {
-        soundManager = transform.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     //==========================================================================
@@ -24,7 +22,6 @@ public class Manager : MonoBehaviour {
     //==========================================================================
     private void Awake () {
         Init();
-        soundManager.Trigger(0,true);
     }
 
     private void Start () {
