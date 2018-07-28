@@ -21,4 +21,7 @@ public class VD : MonoBehaviour {
     public enum SHIP_MODE { PLAY = 0, LEARN = 1, RANDOM = 2 }; //プレイヤーシップのモード
 
     public enum INVADER_SCORE { INV1 = 10, INV2 = 20, INV3 = 30, UFO1 = 50, UFO2 = 100, UFO3 = 150, UFO4 = 300 }; //スコア
+
+    public static readonly int GENE_SIZE = 1200;
+    public static readonly int GENE_NUM = 5;
 }

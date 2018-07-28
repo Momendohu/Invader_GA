@@ -9,15 +9,16 @@ public class Ship : MonoBehaviour {
     public int Mode; //操縦モード
 
     private bool onceDestroy;//一回だけ破壊処理する
-
     private int FrameNum; //フレーム数
+
+    public byte[,] Gene = new byte[VD.GENE_NUM,VD.GENE_SIZE];
+    public int[] FrameLength = new int[VD.GENE_NUM];
 
     //==========================================================================
     //コンポーネント
     private SoundManager soundManagerSE;
     private InvaderManager invaderManager;
     private SpriteRenderer spriteRenderer;
-    private TextController textController;
     private ScoreManager scoreManager;
 
     //==========================================================================
@@ -26,7 +27,6 @@ public class Ship : MonoBehaviour {
         soundManagerSE = GameObject.Find("Manager/SoundManagerSE").GetComponent<SoundManager>();
         invaderManager = GameObject.Find("Manager/InvaderManager").GetComponent<InvaderManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        textController = GameObject.Find("TextController").GetComponent<TextController>();
         scoreManager = GameObject.Find("Manager/ScoreManager").GetComponent<ScoreManager>();
     }
 
@@ -35,7 +35,7 @@ public class Ship : MonoBehaviour {
     private void Init () {
         CRef();
 
-        Mode = (int)VD.SHIP_MODE.PLAY;
+        Mode = (int)VD.SHIP_MODE.LEARN;
     }
 
     //==========================================================================
@@ -84,11 +84,83 @@ public class Ship : MonoBehaviour {
                     break;
 
                     case (int)VD.SHIP_MODE.LEARN:
+                    //0世代目ならランダムに行動
+                    if(invaderManager.Generation == 0) {
+                        int rand = Random.Range(0,4);
+                        Gene[invaderManager.Wave,FrameNum % VD.GENE_SIZE] = (byte)rand;
+                        switch(rand) {
+                            case 0:
+                            MoveLeft();
+                            break;
+
+                            case 1:
+                            MoveRight();
+                            break;
+
+                            case 2:
+                            ShotBullet();
+                            break;
+
+                            case 3:
+                            break;
+                        }
+
+                        if(!(checkLeft && checkRight)) {
+                            break;
+                        }
+
+                        if(checkRight) {
+                            transform.position = new Vector3(VD.EDGE_POSITION_X,VD.SHIP_POSITION_Y,0);
+                            break;
+                        }
+
+                        if(checkLeft) {
+                            transform.position = new Vector3(VD.EDGE_POSITION_X,VD.SHIP_POSITION_Y,0);
+                            break;
+                        }
+
+                        break;
+                    } else {
+                        switch(Gene[invaderManager.Wave,FrameNum % VD.GENE_SIZE]) {
+                            case 0:
+                            MoveLeft();
+                            break;
+
+                            case 1:
+                            MoveRight();
+                            break;
+
+                            case 2:
+                            ShotBullet();
+                            break;
+
+                            case 3:
+                            break;
+                        }
+
+                        if(!(checkLeft && checkRight)) {
+                            break;
+                        }
+
+                        if(checkRight) {
+                            transform.position = new Vector3(VD.EDGE_POSITION_X,VD.SHIP_POSITION_Y,0);
+                            break;
+                        }
+
+                        if(checkLeft) {
+                            transform.position = new Vector3(VD.EDGE_POSITION_X,VD.SHIP_POSITION_Y,0);
+                            break;
+                        }
+
+                        break;
+
+                    }
 
                     break;
 
                     case (int)VD.SHIP_MODE.RANDOM:
                     int rand2 = Random.Range(0,4);
+                    Gene[invaderManager.Wave,FrameNum % VD.GENE_SIZE] = (byte)rand2;
                     switch(rand2) {
                         case 0:
                         MoveLeft();
@@ -124,6 +196,7 @@ public class Ship : MonoBehaviour {
                 }
 
                 FrameNum++;
+                FrameLength[invaderManager.Wave] = FrameNum;
             }
 
             if(DestroyFlag && onceDestroy == false) {

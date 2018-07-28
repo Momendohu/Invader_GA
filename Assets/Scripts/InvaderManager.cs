@@ -22,12 +22,14 @@ public class InvaderManager : MonoBehaviour {
     //コンポーネント
     private ScoreManager scoreManager;
     private Ship ship;
+    private TextController textController;
 
     //==========================================================================
     //コンポーネント参照
     private void CRef () {
         scoreManager = GameObject.Find("Manager/ScoreManager").GetComponent<ScoreManager>();
         ship = GameObject.Find("Ship").GetComponent<Ship>();
+        textController = GameObject.Find("TextController").GetComponent<TextController>();
     }
 
     //==========================================================================
@@ -62,10 +64,48 @@ public class InvaderManager : MonoBehaviour {
                     }
 
                     if(wasInitialilzedFirst) {
+                        Debug.Log(Generation + ":" + Wave + ":" + ship.FrameLength[Wave]);
+                        textController.WriteText(Generation + ":" + Wave + ":" + ship.FrameLength[Wave]);
                         Wave++;
-                        if(Wave >= 10) {
+                        if(Wave >= VD.GENE_NUM) {
                             Wave = 0;
                             Generation++;
+
+                            //学習
+                            int[] a = { 10000,10000 };
+                            int[] b = { -1,-1 };
+                            for(int i = 0;i < VD.GENE_NUM;i++) {
+                                for(int j = 0;j < 2;j++) {
+                                    if(ship.FrameLength[i] <= a[j]) {
+                                        if(j == 0) {
+                                            a[j + 1] = a[j];
+                                            b[j + 1] = b[j];
+                                        }
+
+                                        a[j] = ship.FrameLength[i];
+                                        b[j] = i;
+                                    }
+                                }
+                            }
+
+                            byte[] intersectionGene = new byte[VD.GENE_SIZE];
+                            for(int i = 0;i < VD.GENE_SIZE;i++) {
+                                intersectionGene[i] = ship.Gene[b[i % 2],i];
+                            }
+
+                            for(int i = 0;i < VD.GENE_NUM;i++) {
+                                for(int j = 0;j < VD.GENE_SIZE;j++) {
+                                    if(j < VD.GENE_NUM - 1) {
+                                        if(Random.Range(0,20) < 19) {
+                                            ship.Gene[i,j] = intersectionGene[i];
+                                        } else {
+                                            ship.Gene[i,j] = (byte)Random.Range(0,4);
+                                        }
+                                    } else {
+                                        ship.Gene[i,j] = (byte)Random.Range(0,4);
+                                    }
+                                }
+                            }
                         }
                     } else {
                         wasInitialilzedFirst = true;
